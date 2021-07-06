@@ -1,10 +1,13 @@
-import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
-import "./Nav.css";
+import React, { Component } from "react"; //bring in react
+import { Link, NavLink } from "react-router-dom"; // bring in Link and NavLink to display in DOM
+import "./Nav.css"; //bring in nav css
 export class Nav extends Component {
   render() {
     //console.log(this.props);
 
+    //Nav bar text Movie with Friends as Link (like an <a href> tag)
+    //Welcome back user with Sign up and Login NavLinks
+    //inline styling and handling changes as they logout
     return (
       <nav className="Navbar">
         <div className="h1-logo">
@@ -49,4 +52,4 @@ export class Nav extends Component {
     );
   }
 }
-export default Nav;
+export default Nav; //run Nav

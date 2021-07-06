@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from "react"; //brings in react into proj
+import axios from "axios"; //brings in axios post npm i axios
 
 export class MovieDetail extends Component {
+  //sets state to MovieDetail properties
   state = {
     Actors: "",
     Awards: "",
@@ -18,28 +19,33 @@ export class MovieDetail extends Component {
   async componentDidMount() {
     try {
       let result = await axios.get(
+        //result = axios API req with person access key
         `https://omdbapi.com/?apikey=6332b1e1&t=${this.props.match.params.movieTitle}`
       );
 
       this.setState({
-        Actors: result.data.Actors,
-        Awards: result.data.Awards,
-        Country: result.data.Country,
-        Plot: result.data.Plot,
-        Poster: result.data.Poster,
-        Rated: result.data.Rated,
-        Ratings: result.data.Ratings,
-        Title: result.data.Title,
-        imdbID: result.data.imdbID,
+        Actors: result.data.Actors, //how to retrieve the value for Actors
+        Awards: result.data.Awards, // how to retrieve the value for Awards
+        Country: result.data.Country, // how to retrieve the value for Country
+        Plot: result.data.Plot, //how to retrieve the value for Plot
+        Poster: result.data.Poster, // how to retrieve the value for Poster
+        Rated: result.data.Rated, //how to retrieve the value for Rated
+        Ratings: result.data.Ratings, // how to retrieve the value for Ratings
+        Title: result.data.Title, // how to retrieve the value for Title
+        imdbID: result.data.imdbID, // how to retrieve the value for imdbID
         isLoading: false,
       });
 
-      console.log(result);
+      console.log(result); //console log axios req
     } catch (e) {
+      //catch errs
       console.log(e);
     }
   }
 
+  //display movie details
+  //an img with movie poster and title as alt description
+  // separate divs for each detail
   showMovieDetail = () => {
     return (
       <div style={{ display: "flex" }}>
@@ -69,7 +75,7 @@ export class MovieDetail extends Component {
       </div>
     );
   };
-
+  //render the state of loading centered on the top at 50 pixels
   render() {
     return (
       <div>
@@ -85,4 +91,4 @@ export class MovieDetail extends Component {
   }
 }
 
-export default MovieDetail;
+export default MovieDetail; //run MovieDetail
