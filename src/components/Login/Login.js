@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from "react"; //brings in react component
 import { isEmpty, isEmail } from "validator";
 import jwtDecode from "jwt-decode";
 

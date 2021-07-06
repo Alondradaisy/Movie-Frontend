@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { ToastContainer } from "react-toastify";
-import jwtDecode from "jwt-decode";
+import React, { Component } from "react"; // brings in react to the project frontend
+import { ToastContainer } from "react-toastify"; //brings in toastify for notifications
+import jwtDecode from "jwt-decode"; // brings in jwtDecode for jwt token
 
-import MainRouter from "./MainRouter";
+import MainRouter from "./MainRouter"; //instantiates mainRouter and its path
 
-import "./App.css";
+import "./App.css"; // brings in the styling sheet for app
 
 export class App extends Component {
   state = {
@@ -15,13 +15,14 @@ export class App extends Component {
     let getJwtToken = window.localStorage.getItem("jwtToken");
 
     if (getJwtToken) {
-      const currentTime = Date.now() / 1000;
+      const currentTime = Date.now() / 1000; //current time of use
 
       let decodedJWTToken = jwtDecode(getJwtToken);
 
       if (decodedJWTToken.exp < currentTime) {
+        //if the expiration time is less than current time
         //logout
-        this.handleUserLogout();
+        this.handleUserLogout(); //log user out
       } else {
         //login
         this.handleUserLogin(decodedJWTToken);
@@ -34,7 +35,7 @@ export class App extends Component {
       // console.log("decodedJWTToken", decodedJWTToken);
     }
   }
-
+  //handleUserLogin info
   handleUserLogin = (user) => {
     this.setState({
       user: {
@@ -42,7 +43,7 @@ export class App extends Component {
       },
     });
   };
-
+  //handle user logout info and remote the private token they used to access and update the state
   handleUserLogout = () => {
     window.localStorage.removeItem("jwtToken");
     this.setState({
@@ -50,6 +51,8 @@ export class App extends Component {
     });
   };
 
+  //initializes a dynamic app to render components
+  //toastify styles the position of notification(s)
   render() {
     return (
       <>

@@ -1,14 +1,15 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React from "react"; //brings in react into proj
+import { BrowserRouter as Router, Route } from "react-router-dom"; //instantiates router-dom
 
-import Signup from "./components/Signup/Signup";
-import Login from "./components/Login/Login";
-import Home from "./components/Home/Home";
-import Nav from "./components/Nav/Nav";
-import Movie from "./components/Movie/Movie";
-import MovieDetail from "./components/Movie/MovieDetail";
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import Signup from "./components/Signup/Signup"; //Signup file path
+import Login from "./components/Login/Login"; //Login file path
+import Home from "./components/Home/Home"; //Home file path
+import Nav from "./components/Nav/Nav"; //Nav file path
+import Movie from "./components/Movie/Movie"; //Movie file path
+import MovieDetail from "./components/Movie/MovieDetail"; //MovieDetail file path
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute"; //PrivateRoute file path
 
+//mainRouter func
 const MainRouter = (props) => {
   return (
     <Router>
@@ -41,4 +42,4 @@ const MainRouter = (props) => {
   );
 };
 
-export default MainRouter;
+export default MainRouter; //runs the mainRouter
