@@ -19,8 +19,8 @@ export class Nav extends Component {
           <ul>
             <li>
               {this.props.user ? (
-                <NavLink activeClassName="selected" to="/profile">
-                  Welcome Back - {this.props.user.email}
+                <NavLink activeClassName="selected" to="/movie">
+                  Movie Search - {this.props.user.email}
                 </NavLink>
               ) : (
                 <NavLink activeClassName="selected" to="/sign-up">

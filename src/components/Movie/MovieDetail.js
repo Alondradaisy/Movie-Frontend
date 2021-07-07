@@ -1,8 +1,8 @@
-import React, { Component } from "react"; //brings in react into proj
-import axios from "axios"; //brings in axios post npm i axios
+import React, { Component } from "react";
+import axios from "axios";
+import Axios from "../utils/Axios";
 
 export class MovieDetail extends Component {
-  //sets state to MovieDetail properties
   state = {
     Actors: "",
     Awards: "",
@@ -14,38 +14,31 @@ export class MovieDetail extends Component {
     Title: "",
     imdbID: "",
     isLoading: true,
+    telInput: "",
+    textareaInput: "",
   };
-
   async componentDidMount() {
     try {
       let result = await axios.get(
-        //result = axios API req with person access key
         `https://omdbapi.com/?apikey=6332b1e1&t=${this.props.match.params.movieTitle}`
       );
-
       this.setState({
-        Actors: result.data.Actors, //how to retrieve the value for Actors
-        Awards: result.data.Awards, // how to retrieve the value for Awards
-        Country: result.data.Country, // how to retrieve the value for Country
-        Plot: result.data.Plot, //how to retrieve the value for Plot
-        Poster: result.data.Poster, // how to retrieve the value for Poster
-        Rated: result.data.Rated, //how to retrieve the value for Rated
-        Ratings: result.data.Ratings, // how to retrieve the value for Ratings
-        Title: result.data.Title, // how to retrieve the value for Title
-        imdbID: result.data.imdbID, // how to retrieve the value for imdbID
+        Actors: result.data.Actors,
+        Awards: result.data.Awards,
+        Country: result.data.Country,
+        Plot: result.data.Plot,
+        Poster: result.data.Poster,
+        Rated: result.data.Rated,
+        Ratings: result.data.Ratings,
+        Title: result.data.Title,
+        imdbID: result.data.imdbID,
         isLoading: false,
       });
-
-      console.log(result); //console log axios req
+      console.log(result);
     } catch (e) {
-      //catch errs
       console.log(e);
     }
   }
-
-  //display movie details
-  //an img with movie poster and title as alt description
-  // separate divs for each detail
   showMovieDetail = () => {
     return (
       <div style={{ display: "flex" }}>
@@ -75,7 +68,37 @@ export class MovieDetail extends Component {
       </div>
     );
   };
-  //render the state of loading centered on the top at 50 pixels
+  handleFormSubmit = async (event) => {
+    event.preventDefault();
+    let parsedPhoneNumber = this.state.telInput.split("-").join("");
+    try {
+      let message = `
+                      ${this.state.textareaInput}
+                       Here's the movie details:
+                      Actors: ${this.state.Actors}
+                      Plot: ${this.state.Plot}
+      `;
+      // let result = await Axios.post(
+      //   "/api/twilio/send-sms",
+      //   {
+      //     to: parsedPhoneNumber,
+      //     message: message,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${window.localStorage.getItem("jwtToken")}`,
+      //     },
+      //   }
+      // );
+      let result = await Axios.post("/api/twilio/send-sms", {
+        to: parsedPhoneNumber,
+        message: message,
+      });
+      console.log(result);
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
   render() {
     return (
       <div>
@@ -84,11 +107,32 @@ export class MovieDetail extends Component {
             ...Loading
           </div>
         ) : (
-          this.showMovieDetail()
+          <div>
+            {this.showMovieDetail()}
+            <div>
+              <form onSubmit={this.handleFormSubmit}>
+                <input
+                  type="tel"
+                  id="telInput"
+                  name="telInput"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" //this is the pattern to enter a tel #| 3 numbers 0-9, 3 numbers 0-9, 4 numbers 0-9
+                  required
+                  placeholder="enter a friend #"
+                  onChange={this.handleFormChange}
+                />
+                <br />
+                <textarea
+                  name="textareaInput"
+                  onChange={this.handleFormChange}
+                ></textarea>
+                <br />
+                <button type="submit">Submit</button>
+              </form>
+            </div>
+          </div>
         )}
       </div>
     );
   }
 }
-
-export default MovieDetail; //run MovieDetail
+export default MovieDetail;

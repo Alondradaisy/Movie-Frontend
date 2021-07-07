@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify"; //brings in toastify for notifi
 import jwtDecode from "jwt-decode"; // brings in jwtDecode for jwt token
 
 import MainRouter from "./MainRouter"; //instantiates mainRouter and its path
+import setAxiosAuthToken from "./components/utils/setAxiosAuthToken";
 
 import "./App.css"; // brings in the styling sheet for app
 
@@ -43,9 +44,11 @@ export class App extends Component {
       },
     });
   };
+
   //handle user logout info and remote the private token they used to access and update the state
   handleUserLogout = () => {
     window.localStorage.removeItem("jwtToken");
+    setAxiosAuthToken(null);
     this.setState({
       user: null,
     });

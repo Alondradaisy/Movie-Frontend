@@ -7,6 +7,7 @@ import Axios from "../utils/Axios"; //brings in Axios - also npm i axios via ter
 import checkIfUserIsAuth from "../utils/checkIfUserIsAuth"; //instantiates this func from this path
 
 import "./Login.css"; //brings in login styling sheet
+import setAxiosAuthToken from "../utils/setAxiosAuthToken";
 //brings in login check fields
 export class Login extends Component {
   state = {
@@ -115,6 +116,9 @@ export class Login extends Component {
       let jwtToken = result.data.payload; //assigns jwtToken to the results data payload
 
       console.log(jwtToken); //logs the jwtToken in the console
+
+      setAxiosAuthToken(jwtToken);
+
       let decodedToken = jwtDecode(jwtToken); //assigns a variable that can decode the jwt Token
       console.log(decodedToken); //logs it out in the console
 

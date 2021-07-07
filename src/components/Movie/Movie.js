@@ -9,6 +9,53 @@ export class Movie extends Component {
     movieArray: [], //empty arr
   };
 
+  async componentDidMount() {
+    //console.log(this.props.location.search);
+    //list of movies
+
+    let randomMovieArray = [
+      "7500",
+      "The devil wears prada",
+      "West World",
+      "The Matrix",
+      "Coco",
+    ];
+
+    let randomSelectedMovieIndex = Math.floor(
+      Math.random() * randomMovieArray.length
+    );
+
+    try {
+      let randomMovieData = await axios.get(
+        `https://omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API}&s=${randomMovieArray[randomSelectedMovieIndex]}`
+      );
+      this.setState({
+        movieArray: randomMovieData.data.Search,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+
+    //both try blocks essentially share the same logic\\
+    //-> refactor this so that there's only one try and catch block<-\\
+
+    try {
+      let searchedMovieTitle =
+        window.sessionStorage.getItem("searchedMovieTitle"); //sessionStorage only lives in the lifespan of the open window
+
+      if (searchedMovieTitle) {
+        let result = await axios.get(
+          `https://omdbapi.com/?apikey=${process.env.REACT_APP_MOVIE_API}&s=${searchedMovieTitle}`
+        );
+        this.setState({
+          movieArray: result.data.Search,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   //updates changes when values are inputted
   handleOnChange = (event) => {
     this.setState({
@@ -25,6 +72,8 @@ export class Movie extends Component {
       );
 
       console.log(result); // log the result
+
+      window.sessionStorage.setItem("searchedMovieTitle", this.state.movie); //local storage only exists within lifetime of tab
 
       this.setState({
         //update the state of the movie array when user searches

@@ -1,22 +1,22 @@
-import jwtDecode from "jwt-decode"; //import JWT Decode to token
+import jwtDecode from "jwt-decode";
+import setAxiosAuthToken from "./setAxiosAuthToken";
 
-//checks if user is authorized with jwt token
 const checkIfUserIsAuth = () => {
-  //check if token exists, if it doesnt exists return false
+  //check if token exists, if it doesn't exists return false
   //if it does exists, check if token valid (meaning not expired)
   //if expired return false
   //else return true
 
-  let getJwtToken = window.localStorage.getItem("jwtToken"); //store jwtToken in local storage
+  let getJwtToken = window.localStorage.getItem("jwtToken");
 
   if (getJwtToken) {
     const currentTime = Date.now() / 1000;
     let decodedToken = jwtDecode(getJwtToken);
-
     if (decodedToken.exp < currentTime) {
-      // think of this logically - time wise
+      setAxiosAuthToken(null);
       return false;
     } else {
+      setAxiosAuthToken(getJwtToken);
       return true;
     }
   } else {
@@ -24,4 +24,4 @@ const checkIfUserIsAuth = () => {
   }
 };
 
-export default checkIfUserIsAuth; //run the func
+export default checkIfUserIsAuth;
